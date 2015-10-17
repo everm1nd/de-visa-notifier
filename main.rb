@@ -1,9 +1,3 @@
-require 'pdf-reader'
+require './notifier'
 
-BARCODE = '3230731'
-
-reader = PDF::Reader.new("test/input.pdf")
-
-reader.pages.each do |page|
-  puts 'found!' if page.text.match BARCODE
-end
+Notifier.start(ARGV)
