@@ -1,6 +1,6 @@
 require 'yaml'
 
-@@config = YAML.load(File.open('config.yml'))
+CONFIG = YAML.load(File.open('config.yml'))
 
 require './notifier'
 
