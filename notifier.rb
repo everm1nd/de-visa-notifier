@@ -2,6 +2,18 @@ require 'thor'
 require 'pdf-reader'
 require 'mail'
 
+Mail.defaults do
+  delivery_method :smtp, {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => 'gmail.com',
+    :user_name            => @@config['email']['username'],
+    :password             => @@config['email']['password'],
+    :authentication       => 'plain',
+    :enable_starttls_auto => true
+  }
+end
+
 class Notifier < Thor
   option :email
 
@@ -21,16 +33,12 @@ class Notifier < Thor
 
   def mail(barcode)
     email = options[:email]
-    begin
       Mail.deliver do
-        from     'notifier@everm1nd.dev'
+        from     'visa-notifier@everm1nd.dev'
         to       email
         subject  'Yay! Your visa is ready!'
         body     ':) :) :)'
         add_file './media/attach.jpg'
       end
-    rescue
-      puts '[ERROR]: Failed to send email'
-    end
   end
 end
